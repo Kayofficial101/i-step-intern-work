@@ -1,0 +1,95 @@
+-- Create database named IPL
+CREATE SCHEMA IPL;
+
+-- List all available databases
+SHOW SCHEMAS;
+
+-- Switch to IPL database
+USE IPL;
+
+-- Create 'matches' table
+CREATE TABLE matches(
+  match_id INTEGER,
+  location VARCHAR(20),
+  match_date DATE,
+  man_of_the_match VARCHAR(20),
+  ground VARCHAR(60),
+  is_neutral_venue TINYINT,
+  first_team VARCHAR(50),
+  second_team VARCHAR(50),
+  coin_toss_winner VARCHAR(50),
+  coin_toss_decision VARCHAR(10),
+  match_winner VARCHAR(50),
+  outcome VARCHAR(10),
+  victory_margin INT,
+  tie_breaker VARCHAR(10),
+  game_method VARCHAR(10),
+  ref1 VARCHAR(30),
+  ref2 VARCHAR(30)
+);
+
+-- Describe 'matches' table
+DESCRIBE matches;
+
+-- Create 'deliveries' table
+CREATE TABLE deliveries(
+  delivery_id INTEGER,
+  innings TINYINT,
+  game_over INT,
+  delivery_number TINYINT,
+  striker VARCHAR(30),
+  nonstriker VARCHAR(30),
+  bowler_name VARCHAR(30),
+  runs_by_batsman INT,
+  additional_runs INT,
+  total_run INT,
+  got_wicket TINYINT,
+  mode_of_dismissal VARCHAR(30),
+  dismissed_player VARCHAR(30),
+  assisting_fielder VARCHAR(30),
+  kind_of_extra VARCHAR(30),
+  batting_side VARCHAR(50),
+  bowling_side VARCHAR(50)
+);
+
+-- Display 'matches' table
+SELECT *
+FROM matches;
+
+-- Display 'deliveries' table
+SELECT *
+FROM deliveries;
+
+-- Select first 20 records from 'deliveries'
+SELECT TOP 20 *
+FROM deliveries;
+
+-- Select first 20 records from 'matches'
+SELECT TOP 20 *
+FROM matches;
+
+-- Fetch matches played on specific date
+SELECT *
+FROM matches
+WHERE match_date = '2013-05-02';
+
+-- Fetch matches with a high victory margin
+SELECT *
+FROM matches
+WHERE victory_margin > 100;
+
+-- Fetch tied matches sorted by date in reverse order
+SELECT *
+FROM matches
+WHERE outcome = 'tie'
+ORDER BY match_date DESC;
+
+-- Count of unique host cities
+SELECT COUNT(DISTINCT location)
+FROM matches;
+
+-- Matches played in each city, sorted
+SELECT location, COUNT(match_id) AS 'Games'
+FROM matches
+GROUP BY location
+ORDER BY COUNT(match_id) DESC;
